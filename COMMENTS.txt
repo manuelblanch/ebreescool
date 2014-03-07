@@ -1,0 +1,265 @@
+Plans d'estudi
+--------------
+
+-Curs. Examples 1ESOA | 2SMX  ---> Tutor, locations: Aula/Aules. Pertany a un estudi
+--Grup Classe: 1 Grup té una relació 1-1 amb un curs. De fet solen compartir nom
+  Un alumne pot pertanyer a diversos cursos si està matrículat a 2 o més
+  estudis
+  Un alumne repetidor té assignatures d'un curs (primer) i d'un altre (2n) 
+  però pertany a només un grup principal: decisió del centre
+  El que si és cert és que a nivell d'assignatures està matrículat
+
+--- Assignatura: sinònims: Mòdul professional | Assignatura . Exemples MP7, CIENCIES NATURALS
+    Una assignatura sempre pertany a un sol curs, o el que és el mateix a un
+    pla d'estudis. NOTA: assignatures comunes com anglès a la FP cada anglès
+    d'un estudi és una assignatura diferent
+    Mòduls professionals: poden pertanyer part a un curs i part a un altre,
+    per que tenen UFs a diferents cursos.
+
+Matrícula
+---------
+
+- IMPORTANT: No es matrícula gent a cursos sinó a assignatures | UFs
+- Facilitar matrícula típica: Un alumne és matrícula a totes les
+  assignatures TRONCALS d'un curs: matrícula per defecte!
+-- Permetre però la matrícula per UFS
+-- Permetre però la matrícula d'assignatures optatives
+-- Les optatives que es facin per parts durant l'any o es facin per
+   diferents professors les donaria d'alta al sistema com assignatures
+   diferents o trossets d'assignatures
+
+Manteniment de departaments
+---------------------------
+
+Cal fer el manteniment
+A la web del INS DELTEDRE hi ha una llista
+
+Pla d'estudis
+-------------
+
+Cal fer un manteniment, un camp on poder guardar el nom de les subunitats:
+- Exemples: ESO: Assignatures FP: Mòduls professionals
+
+
+Assignatura:
+-----------
+
+Nom taula: study_module
+  
+Són parts en les que es divideix un pla d'estudis o el que és el mateix un
+estudi. 
+
+Estan associadea un i nomes un curs principal normalment
+Es poden dividir en més trossets: cas assignatures optatives, o el cas de
+les unitats formatives dels mòduls professionals FP
+
+Id
+NomCurt
+NomLlarg
+Num hores setmanals segons pla d'estudis
+CursId: al fer-les pertanyer a un curs ja pertanyen a un pla d'estudis
+TeacherId: pot ser una relació 1-n, és a dir tenir diferents professors
+Tipus: Troncal | Alternativa | optativa
+Cas sigui alternativa o optativa:
+-- Tipus2: trimestral/quadrimestral
+Dates inici i fi: Omplir automàtic segons tipus? Troncal: Tot any
+Camps habituals: baixa lògica, dates, usuaris.
+
+ESO:
+Facilitar l'alta del pla d'estudis:
+- Troncals: Llengua Catalana i Literatura o similars:
+-- Es fan cada anys (1,2,3, i 4rt). Són diferents
+-- Crear un supergrup per agrupar tots els catalans/castellà, etc
+--- Assignatures alternatives: Religio/ Francés, etc
+
+- A les troncals van tots els alumnes del grup
+- A les optatives es divideixen:
+-- Optatives: 
+
+ESO: són 30 hores setmanals
+
+UNITATS FORMATIVES
+------------------
+
+Nom taula: study_submodules
+
+Exemples: Unitats formatives a la FP
+ESO: Assignatures optatives
+
+
+MATRÍCULA (enrollment):
+
+Matrícula: normalment és anual però no tancar-nos:
+Manteniment de períodes:
+2012-13: exemple de període anual
+Tipus: Anual | trimestral
+
+Fases:
+
+1) Matrícular un alumne a un o més estudis: taules enrollment | enrollment_estudies
+2) Matrícular per estudis:
+
+
+2a) Escollir un estudi
+2a) Escollir grup principal: 1ASIX, 2ESO
+2b) Opcional: grups secundaris: alumnes repetidors o múltiples cursos
+3) Escollir grup:
+3a) Matrícular assignatures/moduls. Permetre opció (per defecte) matricular a tot
+del grup principla
+3b) Matrícular de grups secundaris
+
+Les Fases 1 i 2 les fa secretaria
+Les altres fases o a posteriori o les fan esl profes/tutors o es fa a
+posteriori de la matrícula de juliol
+
+Taules:
+- person: aprofitar d'intranet augute. Potencial d'alumnes però també ho
+  serà de professors o altres....
+- enrollmentPeriods: matrícula és anual ara però ves a saber: cada
+  matrícula associada a un període: cal un manteniment de períodes: es toca
+  un cop any!
+- enrollment: taula per relacionar persones matrículades per períodes
+   personid<->enrollmentperiodId
+- enrollment_studies: per relaciona persones amb estudis i períodes
+
+
+
+
+enrollment:
+<<<<<<< HEAD
+- periodid 
+- personid 
+=======
+- periodid
+- personid
+>>>>>>> 84ee2cfabe23dc2233481d2ae82a897900ecc35d
+
+enrolment_studies
+- periodid
+- personid
+- study_id
+
+enrollment_class_group
+- periodid
+- personid
+- study_id
+- groupid 
+
+enrollment_modules
+- periodid
+- personid
+- study_id
+- groupid 
+- moduleid
+
+enrollment_submodules
+- periodid
+- personid
+- study_id
+- groupid 
+- moduleid
+- submoduleid
+
+Una entrada per a cada període, persona, estudi, group, mòdul i submodul
+
+Exemples de llistes:
+
+1) Obtenir totes les persones matrículades en un període a qualsevol estudi:
+   Taula enrollment
+
+1) Matrícula lliure per administradors/gestors
+
+No és un wizard es poder editar directament la taula:
+
+- enrollment_submodules
+- Poder escollir qualsevol dels períodes, qualsevol dels estudis, qualsevol d
+  
+Cascada:
+
+DEFINIR AL FINAL DESPRES DE PROGRAMAR LES RESTRICCIONS DE BASE DE DADES!
+
+Per a una persona:
+
+- Periode (enrollment table)
+-- Estudi/s (enrolment_studies)
+--- main_group_classe
+--- secondary_group_classes
+---- Module/s
+----- Submodule/s
+
+
+
+WIZARD MATRÍCULA
+----------------
+
+Pantalles
+
+Matrícula per alumne:
+---------------------
+
+1) Alta persona
+2) Alta persona_estudis. Es permet la simultaneitat d'estudis. EXEMPLE: ESO. SMX i
+SANITAT.
+FOR -> PER CADA ESTUDI {
+ 3) Alta de grups_classe: grup principal i es permeten grups secundaris dins
+    un mateix estudi. 1ESOA, 1SMX
+ 3a) Grups secundaris
+ 4) Alta de mòduls: mòduls profesionals o assignatures. Permetre assignar
+    tots els mòduls en bloc
+ 5) Alta de submòduls: unitats formatives | optatives. Permetre no definir
+ 5) Alta de submòduls: unitats formatives | optatives. Permetre no definir
+    res que serà equivalent a que fa totes les unitats formatives o que les
+    optatives estan per definir
+  
+Taula
+-----
+
+Nom: enrollment
+
+Una entrada per cada alumne-període:
+
+Id
+IdAlumne
+IdPeriode
+Estudis: pot simultaneijar per tant no hi ha un camp sinó una taula per a
+relació 1-n
+Camps habituals: baixa, dates, usuaris...
+
+Taula intermitges:
+
+ENROLLMENT_STUDIES
+------------------
+
+Una entrada per alumne-periode(enrollment)-study
+enrollment_studies
+-idenrollment_studies
+-idenrollment
+-idstudy
+- Mòduls matrículats: Taula a part!
+
+ENROLLEMENT_STUDIES_MODULES
+Una entrada per alumne-període-estudi-mòdul
+-idenrollment_studies_module
+-idenrollment_studies
+
+
+-idstudy_module
+
+Fases:
+
+- Assignació d'un alumne a un o més estudis
+- Relació 1-n alumne-estudis
+
+Per cada estudi:
+
+- Assignació d'una alumne a un grup principal. NOTA: en cas FP i per no
+  altres permetre que un alumne estigui matrículat a dos grups quan
+  simulatnija estudis. DINS D'UN MATEIX ESTUDI NOMÉS ES POT PERTANYER A UN
+  GRUP CLASSE PRINCIPAL. En cas de repetidors o alumnes que estan a més d'un
+  grup cal decidir un grup principal
+  Per tant:
+  Camp: main_group: 1 relació 1-1 alumne-grup_classe
+  Camp: secondary_groups: Grups secundaris relació 1-n: 1 alumne pot estar a
+  un o més grups secundaris.
+
+- Assignació d'alumnes
